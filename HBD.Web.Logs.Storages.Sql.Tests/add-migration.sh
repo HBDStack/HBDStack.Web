@@ -1,0 +1,1 @@
+dotnet ef migrations add $1 -c SqlRequestLogDbContext -o Migrations -p ../HBD.Web.Logs.Storages.Sql/HBD.Web.Logs.Storages.Sql.csproj -s HBD.Web.Logs.Storages.Sql.Tests.csproj

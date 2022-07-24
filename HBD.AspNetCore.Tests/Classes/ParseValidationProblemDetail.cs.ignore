@@ -1,0 +1,88 @@
+﻿using HBD.AspNetCore.ErrorHandlers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text.Json;
+
+namespace HBD.AspNetCore.Tests.Classes
+{
+    [TestClass]
+    public class ParseValidationProblemDetail
+    {
+        #region Methods
+
+        [TestMethod]
+        public void ValidationProblemDetail_GetErrorFromAggregateException_WithValid()
+        {
+            var ex1 = new ValidationException();
+            var ex2 = new ValidationException("In data is invalid state");
+            var ex3 = new ValidationException(new ValidationResult(string.Empty), null, null);
+            var ex4 = new ValidationException(new ValidationResult("required", new string[] { "Currency" }), null, null);
+            var ex5 = new ValidationException(new ValidationResult("must_be_valid", new string[] { "Currency", "ClientId" }), null, null);
+            var ex6 = new ValidationException(new ValidationResult("must_be_2_chars", new string[] { "Currency", "" }), null, null);
+
+            var aggregator = new AggregateException(ex1, ex2, ex3, ex4, ex5, ex6);
+
+            var problem = aggregator.GetProblemDetails();
+
+            Assert.AreEqual(3, problem.ErrorDetails.Count());
+        }
+
+        [TestMethod]
+        public void ValidationProblemDetail_Parsing_WithResult()
+        {
+            var problemDetailJson = "{\"errorMessage\":\"One or more validation errors occurred.\",\"status\":400,\"traceId\":\"00-9a108546fee0aa408e08eb1d56d16f21-0ff5644e35c5c647-00\",\"errorDetails\":{\"Currency\":[\"The currency field is required.\"]}}";
+
+            var result = JsonSerializer.Deserialize<ErrorHandlers.ProblemDetails>(problemDetailJson, new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.ErrorDetails);
+
+            Assert.AreEqual(1, result.ErrorDetails.Count);
+        }
+
+        [TestMethod]
+        public void ValidationProblemDetail_TransformToNamingPolicy_WithInvalidResult()
+        {
+            var option = new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var problemDetailJson = "{\"errorMessage\":\"One or more validation errors occurred.\",\"status\":400,\"traceId\":\"00-9a108546fee0aa408e08eb1d56d16f21-0ff5644e35c5c647-00\",\"errorDetails\":{\"Currency\":[\"The currency field is required.\"],\"ThisIsCamelCase\":[\"The ThisIsCamelCase field is required.\"]}}";
+
+            var result = JsonSerializer.Deserialize<ErrorHandlers.ProblemDetails>(problemDetailJson, option);
+
+            var jsonString = result.ToJson();
+
+            var resultAfterTransform = JsonSerializer.Deserialize<ErrorHandlers.ProblemDetails>(jsonString, option);
+
+            Assert.AreEqual(2, resultAfterTransform.ErrorDetails.Count);
+        }
+
+        [TestMethod]
+        public void ValidationProblemDetail_TransformToNamingPolicy_WithResult()
+        {
+            var option = new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var problemDetailJson = "{\"errorMessage\":\"One or more validation errors occurred.\",\"status\":400,\"traceId\":\"00-9a108546fee0aa408e08eb1d56d16f21-0ff5644e35c5c647-00\",\"errorDetails\":{\"Currency\":[\"The currency field is required.\"],\"ThisIsCamelCase\":[\"The ThisIsCamelCase field is required.\"]}}";
+
+            var result = JsonSerializer.Deserialize<ErrorHandlers.ProblemDetails>(problemDetailJson, option);
+
+            var jsonString = result.ToJson();
+
+            var resultAfterTransform = JsonSerializer.Deserialize<ErrorHandlers.ProblemDetails>(jsonString, option);
+
+            //TODO Test here
+            // Assert.AreEqual("currency", resultAfterTransform.ErrorDetails.Keys.ElementAt(0));
+            // Assert.AreEqual("thisIsCamelCase", resultAfterTransform.ErrorDetails.Keys.ElementAt(1));
+        }
+
+        #endregion Methods
+    }
+}

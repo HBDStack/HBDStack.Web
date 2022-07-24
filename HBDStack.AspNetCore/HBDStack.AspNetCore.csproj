@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Version>3.0.0</Version>
+    <Authors>Duy Hoang</Authors>
+    <Description>The helper for AspNetCore</Description>
+    <Copyright>@Calibers, 2020</Copyright>
+    <PackageLicenseExpression>Calibers</PackageLicenseExpression>
+    <PackageIcon>NugetLogo.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>AspNet, Helper, API</PackageTags>
+    <PackageReleaseNotes>
+      Version 3.x
+       - Using HBD.Efcore.BizAction
+      Version 2.x
+      - Custom details error handler.
+
+      Version 1.x
+      - Transform ValidatinoProblemDetails as camelCase by default and allow change NamingPolicy
+      - Support ApplicationException with DbUpdateConcurrencyException (HttpStatusCode.Conflict)
+      - Forward bad request from upstream to client
+      - Add global exception for ArgumentException, ValidationException
+      - Fix bug: message cannot be added into message array
+      - Using ValidationProblemDetails instand of ProblemDetails
+      - Error Handling: Cover the case that a field with multiple validation error.
+      - Fix issue when cannot get ILogger.
+      - Enhance: Set TraceIdentifier into ProblemDetails.Instance
+      - The first version with predefined of IModel, IViewModel and Some handling middle-ware
+      - Support Application Insights Log.
+      - Added Global Exception Handling.
+      - Added supports Client Certificate validation.
+      - Added Rate Limit Attribute.
+    </PackageReleaseNotes>
+    <Nullable>disable</Nullable>
+    <IsPackable>true</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HBDStack.StatusGeneric" Version="6.5.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Refit" Version="6.3.2" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="NugetLogo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>

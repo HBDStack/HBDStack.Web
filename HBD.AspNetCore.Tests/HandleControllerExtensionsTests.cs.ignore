@@ -1,0 +1,162 @@
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Serialization;
+using System;
+using System.ComponentModel.DataAnnotations;
+using HBD.StatusGeneric;
+
+namespace HBD.AspNetCore.Tests
+{
+    [TestClass]
+    public class HandleControllerExtensionsTests
+    {
+        #region Methods
+
+        [TestMethod]
+        public void TestNoData()
+        {
+            var status = new StatusGenericHandler();
+            var rs = status.Send();
+            rs.Should().BeOfType(typeof(NoContentResult));
+        }
+
+        [TestMethod]
+        public void TestProblemDetails_WithErrorCodeAndMessage_ShouldBeOk()
+        {
+            var status = new StatusGenericHandler();
+
+            status.AddError("This is error message for param Hello");
+
+            var rs = status.Send() as ObjectResult;
+
+            rs.Should().NotBeNull();
+            rs.Value.Should().BeOfType(typeof(ErrorHandlers.ProblemDetails));
+            ((ErrorHandlers.ProblemDetails)rs.Value).ErrorDetails.Should().BeEmpty();
+            ((ErrorHandlers.ProblemDetails)rs.Value).ErrorMessage.Should().Be("This is error message for param Hello");
+            ((ErrorHandlers.ProblemDetails)rs.Value).ErrorCode.Should().Be("error");
+        }
+        [TestMethod]
+        public void TestProblemDetails_WithErrorCodeAndMessage_ErrorCodeShouldBeLowerCase()
+        {
+            var status = new StatusGenericHandler();
+
+            status.AddError("Error".ToUpperInvariant(), "This is error message for param {0}", "Hello");
+
+            var rs = status.Send() as ObjectResult;
+
+            rs.Should().NotBeNull();
+            rs.Value.Should().BeOfType(typeof(ErrorHandlers.ProblemDetails));
+            ((ErrorHandlers.ProblemDetails)rs.Value).ErrorDetails.Should().BeEmpty();
+            ((ErrorHandlers.ProblemDetails)rs.Value).ErrorMessage.Should().Be("This is error message for param Hello");
+            ((ErrorHandlers.ProblemDetails)rs.Value).ErrorCode.Should().Be("ERROR".ToLowerInvariant());
+        }
+
+
+        [TestMethod]
+        public void Create_ProblemDetailBadRequestResult()
+        {
+            var problem = new BadRequestObjectResult(new ErrorHandlers.ProblemDetails());
+
+            Assert.IsNotNull(problem);
+            Assert.IsTrue(problem.StatusCode == 400);
+        }
+
+        [TestMethod]
+        public void TestProblemDetails_WithEmtyMemberNamesAndEmptyErrorCode_ShouldThrowException()
+        {
+            var status = new StatusGenericHandler();
+
+            status.AddValidationResults(new[] {
+                new ValidationResult("Error on Name", new[] { "Name" }) ,
+                new ValidationResult("Error on Title", new[] { "Title" }) ,
+                new ValidationResult("Other error") ,
+            });
+
+
+
+            var exception = Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                var rs = status.Send() as ObjectResult;
+            });
+
+            Assert.AreEqual($"Expect MemberNames must have values when ErrorCode and ErrorMessage not specify.", exception.Message);
+
+
+        }
+
+        [TestMethod]
+        public void TestProblemDetails_MixingFieldNamesAndErrorMessage_ShouldThrowException()
+        {
+            var status = new StatusGenericHandler();
+
+            status.AddValidationResults(new[] {
+                new ValidationResult("Error on Name", new[] { "Name" }) ,
+                new ValidationResult("Name is not in range", new[] { "Name" }) ,
+                new ValidationResult("Error on Title", new[] { "Title" }) ,
+                new ValidationResult("Other error") ,
+            });
+
+            status.AddError("Something went wrongs.");
+            var exception = Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                var rs = status.Send() as ObjectResult;
+            });
+
+            Assert.AreEqual($"Expect MemberNames must have values when ErrorCode and ErrorMessage not specify.",exception.Message);
+
+
+        }
+
+
+        // [TestMethod]
+        // public void TestProblemDetails_WithErrorDetails_ShouldBeOk()
+        // {
+        //     var status = new StatusGenericHandler();
+        //
+        //     status.AddValidationResults(new[] {
+        //         new ValidationResult("Error on Name", new[] { "Name" }) ,
+        //         new ValidationResult("Name is not in range", new[] { "Name" }) ,
+        //         new ValidationResult("Error on Title", new[] { "Title" }) ,
+        //     });
+        //     var rs = status.Send() as ObjectResult;
+        //
+        //     var problem = rs.Value as ErrorHandlers.ProblemDetails;
+        //
+        //
+        //     Assert.AreEqual("Error on Name", problem.ErrorDetails["name"][0]);
+        //     Assert.AreEqual("Name is not in range", problem.ErrorDetails["name"][1]);
+        //     Assert.AreEqual("Error on Title", problem.ErrorDetails["title"][0]);
+        // }
+        //
+        //
+        // [TestMethod]
+        // public void TestProblemDetails_WithErrorDetailsAsSnakeTransform_ShouldBeOk()
+        // {
+        //     var status = new StatusGenericHandler();
+        //     var defaultNamingStrategy = HandleControllerExtensions.NamingStrategy;
+        //
+        //
+        //     HandleControllerExtensions.NamingStrategy = new SnakeCaseNamingStrategy();
+        //
+        //     status.AddValidationResults(new[] {
+        //         new ValidationResult("Error on Name", new[] { "FieldName" }) ,
+        //         new ValidationResult("Name is not in range", new[] { "FieldName" }) ,
+        //         new ValidationResult("Error on Title", new[] { "ExpectFieldName" }) ,
+        //     });
+        //
+        //     var rs = status.Send() as ObjectResult;
+        //
+        //     var problem = rs.Value as ErrorHandlers.ProblemDetails;
+        //
+        //
+        //     Assert.AreEqual("Error on Name", problem.ErrorDetails["field_name"][0]);
+        //     Assert.AreEqual("Name is not in range", problem.ErrorDetails["field_name"][1]);
+        //     Assert.AreEqual("Error on Title", problem.ErrorDetails["expect_field_name"][0]);
+        //
+        //     HandleControllerExtensions.NamingStrategy = defaultNamingStrategy;
+        // }
+
+        #endregion Methods
+    }
+}

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageVersion>$(version)</PackageVersion>
+        <Copyright>@drunkcoding.net 2020</Copyright>
+        <Copyright>@2021, drunkcoding</Copyright>
+        <PackageLicense>https://opensource.org/licenses/MIT</PackageLicense>
+        <PackageProjectUrl>https://github.com/baoduy/HBD.Web</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/baoduy/HBD.Web</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Owners>Duy Hoang</Owners>
+        <PackageTags>HBD,Web</PackageTags>
+        <PackageIconUrl>https://raw.githubusercontent.com/baoduy/Images/master/NugetLogo.PNG</PackageIconUrl>
+        <LangVersion>default</LangVersion>
+        <Authors>Duy Hoang</Authors>
+        <Summary>The extensions for HBD.Web authentication with MS Identity</Summary>
+        <LangVersion>default</LangVersion>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Singa.Portal" />
+        <InternalsVisibleTo Include="Singa.Portal.Tests" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="11.0.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.4" />
+      <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.4" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Authors>Duy Hoang</Authors>
+    <Description>The helper for AspNetCore</Description>
+    <Copyright>@Calibers, 2022</Copyright>
+    <PackageLicenseExpression>Calibers</PackageLicenseExpression>
+    <PackageIcon>NugetLogo.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>AspNet, API, Extensions, Authentication</PackageTags>
+    <PackageReleaseNotes>
+      Version 2.x
+      - Auto generate swagger operation ID `{version}_{controller}_{actionName}` if empty.
+      - Allows to add custom policies.
+      - Added Swagger supports.
+      - Added Versioning supports.
+      - Added Certificate Authentication supports.
+      - Added JWT Authentication supports.
+      - Added IClaimsProvider allows to custom the Identity Claims with Azure AD Group.
+      - Added XLogo document generation extension.
+    </PackageReleaseNotes>
+    <Version>2.3.8</Version>
+    <PackageVersion>5.0.0</PackageVersion>
+    <TargetFramework>net6.0</TargetFramework>
+    <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
+    <Nullable>disable</Nullable>
+    <IsPackable>true</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HBDStack.AzProxy.Core" Version="6.5.2" />
+    <PackageReference Include="HBDStack.AzProxy.Storage" Version="6.5.2" />
+    <PackageReference Include="HBDStack.AzProxy.Vault" Version="6.5.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.AzureKeyVault" Version="3.1.24" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.AzureStorage" Version="3.1.24" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="Refit" Version="6.3.2" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="NugetLogo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HBDStack.AspNetCore\HBDStack.AspNetCore.csproj" />
+  </ItemGroup>
+</Project>

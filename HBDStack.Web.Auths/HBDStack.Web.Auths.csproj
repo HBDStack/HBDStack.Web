@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageVersion>$(version)</PackageVersion>
+        <Copyright>@drunkcoding.net 2020</Copyright>
+        <Copyright>@2021, drunkcoding</Copyright>
+        <PackageLicense>https://opensource.org/licenses/MIT</PackageLicense>
+        <PackageProjectUrl>https://github.com/baoduy/HBD.Web</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/baoduy/HBD.Web</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Owners>Duy Hoang</Owners>
+        <PackageTags>HBD,Web, Oauth, authentication</PackageTags>
+        <PackageIconUrl>https://raw.githubusercontent.com/baoduy/Images/master/NugetLogo.PNG</PackageIconUrl>
+        <LangVersion>default</LangVersion>
+        <Authors>Duy Hoang</Authors>
+        <Summary>The extensions for HBD.Web</Summary>
+        <LangVersion>default</LangVersion>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Update="NugetLogo.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="6.0.6" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.Core" Version="2.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+      <PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HBDStack.Web.Extensions\HBDStack.Web.Extensions.csproj" />
+    </ItemGroup>
+
+</Project>

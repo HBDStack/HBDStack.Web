@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageVersion>$(version)</PackageVersion>
+        <Copyright>@drunkcoding.net 2020</Copyright>
+        <Description>HBD.Web.GlobalException</Description>
+        <Copyright>@2021, drunkcoding</Copyright>
+        <PackageLicense>https://opensource.org/licenses/MIT</PackageLicense>
+        <PackageProjectUrl>https://github.com/baoduy/HBD.Web</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/baoduy/HBD.Web</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Owners>Duy Hoang</Owners>
+        <PackageTags>HBD,Web</PackageTags>
+        <PackageIconUrl>https://raw.githubusercontent.com/baoduy/Images/master/NugetLogo.PNG</PackageIconUrl>
+        <LangVersion>default</LangVersion>
+        <PackageId>HBDStack.Web.GlobalException</PackageId>
+        <Authors>Duy Hoang</Authors>
+        <Product>HBD.Web.GlobalException</Product>
+        <Summary>The extensions for HBD.Web</Summary>
+        <Title>HBD.Web.GlobalException</Title>
+        <LangVersion>default</LangVersion>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="NugetLogo.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HBDStack.Framework.Extensions" Version="6.5.3" />
+        <PackageReference Include="HBDStack.StatusGeneric" Version="6.5.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+    </ItemGroup>
+
+</Project>

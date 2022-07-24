@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageVersion>$(version)</PackageVersion>
+        <Copyright>@drunkcoding.net 2020</Copyright>
+        <Description>HBD.Web.Swagger</Description>
+        <Copyright>@2021, drunkcoding</Copyright>
+        <PackageLicense>https://opensource.org/licenses/MIT</PackageLicense>
+        <PackageProjectUrl>https://github.com/baoduy/HBD.Web</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/baoduy/HBD.Web</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Owners>Duy Hoang</Owners>
+        <PackageTags>HBD,Web</PackageTags>
+        <PackageIconUrl>https://raw.githubusercontent.com/baoduy/Images/master/NugetLogo.PNG</PackageIconUrl>
+        <LangVersion>default</LangVersion>
+        <PackageId>HBDStack.Web.Swagger</PackageId>
+        <Authors>Duy Hoang</Authors>
+        <Product>HBD.Web.Swagger</Product>
+        <Summary>The Swagger for Api</Summary>
+        <Title>HBD.Web.Swagger</Title>
+        <LangVersion>default</LangVersion>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HBDStack.Web.Extensions\HBDStack.Web.Extensions.csproj" />
+    </ItemGroup>
+
+</Project>

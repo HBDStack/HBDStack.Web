@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageVersion>$(version)</PackageVersion>
+        <Copyright>@drunkcoding.net 2022</Copyright>
+        <Copyright>@2021, drunkcoding</Copyright>
+        <PackageLicense>https://opensource.org/licenses/MIT</PackageLicense>
+        <PackageProjectUrl>https://github.com/baoduy/HBD.Web</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/baoduy/HBD.Web</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Owners>Duy Hoang</Owners>
+        <PackageTags>HBD,Web, Oauth, authentication</PackageTags>
+        <PackageIconUrl>https://raw.githubusercontent.com/baoduy/Images/master/NugetLogo.PNG</PackageIconUrl>
+        <LangVersion>default</LangVersion>
+        <Authors>Duy Hoang</Authors>
+        <Summary>The Sql storage implementation for HBD.Web.Logs</Summary>
+        <LangVersion>default</LangVersion>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <InternalsVisibleTo Include="HBD.Web.Logs.Storages.Sql.Tests" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="HBDStack.EfCore.Interceptors" Version="6.5.1" />
+      <PackageReference Include="HBDStack.EfCore.Relational.Helpers" Version="6.5.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HBDStack.Web.RequestLogs\HBDStack.Web.RequestLogs.csproj" />
+    </ItemGroup>
+
+</Project>

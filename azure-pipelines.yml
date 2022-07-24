@@ -1,0 +1,69 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- master
+
+pool:
+  vmImage: 'vs2017-win2016'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
+
+steps:
+- task: printAllVariables@1
+- task: NuGetAuthenticate@0
+  inputs:
+    forceReinstallCredentialProvider: false
+- task: Cache@2
+  inputs:
+    key: 'nuget | "$(Agent.OS)" | **/*.csproj,!**/bin/**'
+    restoreKeys: |
+       nuget | "$(Agent.OS)"
+    path: $(NUGET_PACKAGES)
+  displayName: Cache NuGet packages
+- task: NuGetToolInstaller@1
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+    feedsToUse: 'select'
+    vstsFeed: '9092ba21-aeb2-4eae-bcce-ebf84c49bc9a/46382b79-d40d-4b6d-93ea-72b3a505ebab'
+    
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '-c Release'
+
+- task: NuGetCommand@2
+  displayName: Pack HBD.*
+  inputs:
+    command: 'pack'
+    packagesToPack: '**\HBD*.csproj;!**\*.Tests.csproj'
+    versioningScheme: 'off'
+
+- task: NuGetCommand@2
+  displayName: Push pkg
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '9092ba21-aeb2-4eae-bcce-ebf84c49bc9a/46382b79-d40d-4b6d-93ea-72b3a505ebab'
+    allowPackageConflicts: true
+- task: NuGetCommand@2
+  displayName: Push pkg
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'HBD-Nuget'
+    verbosityPush: 'Normal'
+
