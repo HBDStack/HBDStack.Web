@@ -6,7 +6,7 @@
     <Version>3.0.0</Version>
     <Authors>Duy Hoang</Authors>
     <Description>The helper for AspNetCore</Description>
-    <Copyright>@Calibers, 2020</Copyright>
+    <Copyright>@2021, drunkcoding</Copyright>
     <PackageLicenseExpression>Calibers</PackageLicenseExpression>
     <PackageIcon>NugetLogo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
