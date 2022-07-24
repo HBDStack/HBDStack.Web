@@ -27,6 +27,8 @@
     <Nullable>disable</Nullable>
     <IsPackable>true</IsPackable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PackageProjectUrl>https://github.com/HBDStack/HBDStack.Web</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/HBDStack/HBDStack.Web</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

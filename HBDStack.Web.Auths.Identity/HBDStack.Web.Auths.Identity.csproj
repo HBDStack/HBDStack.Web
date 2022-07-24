@@ -5,8 +5,8 @@
         <Copyright>@drunkcoding.net 2020</Copyright>
         <Copyright>@2021, drunkcoding</Copyright>
         <PackageLicense>https://opensource.org/licenses/MIT</PackageLicense>
-        <PackageProjectUrl>https://github.com/baoduy/HBD.Web</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/baoduy/HBD.Web</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/HBDStack/HBDStack.Web</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/HBDStack/HBDStack.Web</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Owners>Duy Hoang</Owners>
