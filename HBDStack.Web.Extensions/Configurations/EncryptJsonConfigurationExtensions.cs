@@ -45,17 +45,17 @@ public static class EncryptJsonConfigurationExtensions
             if (v.IsEncrypted())
                 try
                 {
-                    v = v.DecryptWith(info.DecryptedValue);
+                    v = v.DecryptWithAes(info.Value);
                 }
                 catch (Exception)
                 {
                     try
                     {
-                        v = v.DecryptWithBase64().DecryptWith(info.DecryptedValue);
+                        v = v.DecryptWithBase64().DecryptWithAes(info.Value);
                     }
                     catch (Exception)
                     {
-                        Console.Error.WriteLine($"Not able to decrypt {key.Key}");
+                        Console.Error.WriteLine($"Error: Not able to decrypt {key.Key}");
                     }
                 }
 

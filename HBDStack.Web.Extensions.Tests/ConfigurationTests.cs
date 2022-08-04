@@ -25,10 +25,9 @@ public class ConfigurationTests
     [Fact]
     public void EncryptedEnvTests()
     {
-        Environment.SetEnvironmentVariable("ConfigKey","M0REYjV4RE5tanpCVXJkQWVjWGhER0czZEIzV2VpeFg=" );
-        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn","2WCxdmC7XEbeuAm2S0xw9G/OjwX8Izbpcs47DSMJ3DM=" );
-        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn2","MldDeGRtQzdYRWJldUFtMlMweHc5Ry9PandYOEl6YnBjczQ3RFNNSjNETT0=" );
-        
+        Environment.SetEnvironmentVariable("ConfigKey","TUxYWmtDaE5QR2pVS0svSEkxSFY1eFVLaUFDN1BjVlZ0YVpsbVMvS3FLOD06MkJDRmdlQ0JTcFMyeEppQi8rMkdqdz09" );
+        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn","A8YMLArE8qziKEsvZfKBKw==" );
+
         var s = "Hoang Bao Duy";
         
         var config = new ConfigurationBuilder()
@@ -37,18 +36,15 @@ public class ConfigurationTests
 
         config.GetConnectionString("EncryptedConn")
             .Should().Be(s);
-        config.GetConnectionString("EncryptedConn2")
-            .Should().Be(s);
     }
     
     [Fact]
     public void EncryptedBothTests()
     {
-        Environment.SetEnvironmentVariable("ConfigKey","M0REYjV4RE5tanpCVXJkQWVjWGhER0czZEIzV2VpeFg=" );
-        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn1","2WCxdmC7XEbeuAm2S0xw9G/OjwX8Izbpcs47DSMJ3DM=" );
-        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn2","MldDeGRtQzdYRWJldUFtMlMweHc5Ry9PandYOEl6YnBjczQ3RFNNSjNETT0=" );
-        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn3","VDhaQUczWUJtb25ObGVnaHNSNkNjOWt4TFZhRThSNmdPMGlhUmphMGNIV0J3ckpGVlJKUzBPRU9hYjFOcQ==" );
-        
+        Environment.SetEnvironmentVariable("ConfigKey","TUxYWmtDaE5QR2pVS0svSEkxSFY1eFVLaUFDN1BjVlZ0YVpsbVMvS3FLOD06MkJDRmdlQ0JTcFMyeEppQi8rMkdqdz09" );
+        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn1","A8YMLArE8qziKEsvZfKBKw==" );
+        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn2","QThZTUxBckU4cXppS0VzdlpmS0JLdz09" );
+
         var s = "Hoang Bao Duy";
         
         var config = new ConfigurationBuilder()
@@ -62,7 +58,5 @@ public class ConfigurationTests
             .Should().Be(s);
         config.GetConnectionString("EncryptedConn2")
             .Should().Be(s);
-        config.GetConnectionString("EncryptedConn3")
-            .Should().Be("frvmsdcportalsandbox");
     }
 }
