@@ -1,7 +1,5 @@
-﻿// ReSharper disable CheckNamespace
-
-using System.Collections.Concurrent;
-
+﻿using System.Collections.Concurrent;
+// ReSharper disable CheckNamespace
 namespace Microsoft.Extensions.Configuration;
 
 public static class ConfigExtensions
