@@ -41,6 +41,7 @@ public static class EncryptJsonConfigurationExtensions
         {
             if (key.Key == info.Name) continue;
             var v = key.Value;
+            
             if (v.IsEncrypted())
                 try
                 {
@@ -48,7 +49,14 @@ public static class EncryptJsonConfigurationExtensions
                 }
                 catch (Exception)
                 {
-                    //ignore
+                    try
+                    {
+                        v = v.DecryptWithBase64().DecryptWith(info.DecryptedValue);
+                    }
+                    catch (Exception)
+                    {
+                        Console.Error.WriteLine($"Not able to decrypt {key.Key}");
+                    }
                 }
 
             results.Add(key.Key, v);

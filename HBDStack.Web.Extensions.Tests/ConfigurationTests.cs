@@ -16,7 +16,6 @@ public class ConfigurationTests
         
         var config = new ConfigurationBuilder()
             .AddEncryptJsonFile("appsettings.json","ConfigKey")
-            .AddEnvironmentVariables()
             .Build();
 
         config.GetConnectionString("EncryptedConn")
@@ -28,6 +27,7 @@ public class ConfigurationTests
     {
         Environment.SetEnvironmentVariable("ConfigKey","M0REYjV4RE5tanpCVXJkQWVjWGhER0czZEIzV2VpeFg=" );
         Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn","2WCxdmC7XEbeuAm2S0xw9G/OjwX8Izbpcs47DSMJ3DM=" );
+        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn2","MldDeGRtQzdYRWJldUFtMlMweHc5Ry9PandYOEl6YnBjczQ3RFNNSjNETT0=" );
         
         var s = "Hoang Bao Duy";
         
@@ -36,6 +36,30 @@ public class ConfigurationTests
             .Build();
 
         config.GetConnectionString("EncryptedConn")
+            .Should().Be(s);
+        config.GetConnectionString("EncryptedConn2")
+            .Should().Be(s);
+    }
+    
+    [Fact]
+    public void EncryptedBothTests()
+    {
+        Environment.SetEnvironmentVariable("ConfigKey","M0REYjV4RE5tanpCVXJkQWVjWGhER0czZEIzV2VpeFg=" );
+        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn1","2WCxdmC7XEbeuAm2S0xw9G/OjwX8Izbpcs47DSMJ3DM=" );
+        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn2","MldDeGRtQzdYRWJldUFtMlMweHc5Ry9PandYOEl6YnBjczQ3RFNNSjNETT0=" );
+        
+        var s = "Hoang Bao Duy";
+        
+        var config = new ConfigurationBuilder()
+            .AddEncryptJsonFile("appsettings.json","ConfigKey")
+            .AddEncryptEnvironmentVariables("ConfigKey")
+            .Build();
+
+        config.GetConnectionString("EncryptedConn")
+            .Should().Be(s);
+        config.GetConnectionString("EncryptedConn1")
+            .Should().Be(s);
+        config.GetConnectionString("EncryptedConn2")
             .Should().Be(s);
     }
 }
