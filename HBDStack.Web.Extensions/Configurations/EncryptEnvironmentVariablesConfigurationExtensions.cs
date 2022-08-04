@@ -1,8 +1,7 @@
 using HBDStack.Web.Extensions.Configurations;
-using Microsoft.Extensions.Configuration;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.Configuration.EnvironmentVariables;
+namespace Microsoft.Extensions.Configuration;
 
 public static class EncryptEnvironmentVariablesConfigurationExtensions
 {
