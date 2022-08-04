@@ -24,9 +24,9 @@
         <InternalsVisibleTo Include="HBD.Web.Logs.Storages.Sql.Tests" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="HBDStack.EfCore.Interceptors" Version="6.5.1" />
-      <PackageReference Include="HBDStack.EfCore.Relational.Helpers" Version="6.5.1" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
+      <PackageReference Include="HBDStack.EfCore.Interceptors" Version="6.5.3" />
+      <PackageReference Include="HBDStack.EfCore.Relational.Helpers" Version="6.5.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
     </ItemGroup>
 
     <ItemGroup>

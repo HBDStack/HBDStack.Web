@@ -47,6 +47,7 @@ public class ConfigurationTests
         Environment.SetEnvironmentVariable("ConfigKey","M0REYjV4RE5tanpCVXJkQWVjWGhER0czZEIzV2VpeFg=" );
         Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn1","2WCxdmC7XEbeuAm2S0xw9G/OjwX8Izbpcs47DSMJ3DM=" );
         Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn2","MldDeGRtQzdYRWJldUFtMlMweHc5Ry9PandYOEl6YnBjczQ3RFNNSjNETT0=" );
+        Environment.SetEnvironmentVariable("ConnectionStrings:EncryptedConn3","VDhaQUczWUJtb25ObGVnaHNSNkNjOWt4TFZhRThSNmdPMGlhUmphMGNIV0J3ckpGVlJKUzBPRU9hYjFOcQ==" );
         
         var s = "Hoang Bao Duy";
         
@@ -61,5 +62,7 @@ public class ConfigurationTests
             .Should().Be(s);
         config.GetConnectionString("EncryptedConn2")
             .Should().Be(s);
+        config.GetConnectionString("EncryptedConn3")
+            .Should().Be("frvmsdcportalsandbox");
     }
 }
