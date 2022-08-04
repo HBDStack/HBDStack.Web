@@ -46,12 +46,14 @@ public static class EncryptJsonConfigurationExtensions
                 try
                 {
                     v = v.DecryptWithAes(info.Value);
+                    Console.Error.WriteLine($"Info: Decrypted {key.Key}");
                 }
                 catch (Exception)
                 {
                     try
                     {
                         v = v.DecryptWithBase64().DecryptWithAes(info.Value);
+                        Console.Error.WriteLine($"Info: Decrypted {key.Key}");
                     }
                     catch (Exception)
                     {
