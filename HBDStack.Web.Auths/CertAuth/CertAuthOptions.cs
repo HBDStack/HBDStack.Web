@@ -4,7 +4,8 @@ namespace HBDStack.Web.Auths.CertAuth;
 
 public class CertAuthItem
 {
-    public string Thumbprint { get; set; } = default!;
+    public string? Thumbprint { get; set; }
+    public string? CommonName { get; set; }
     public string[]? Roles { get; set; }
 }
 

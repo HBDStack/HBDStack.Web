@@ -56,9 +56,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCertAuth();
+//app.UseCertAuth();
 
-//app.UseAuth();
+app.UseAuth();
 
 app.MapControllers();
 

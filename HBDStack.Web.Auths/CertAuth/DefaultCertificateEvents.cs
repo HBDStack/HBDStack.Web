@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.Extensions.Options;
 
@@ -16,21 +17,45 @@ public class DefaultCertificateEvents : CertificateAuthenticationEvents
 
     protected DefaultCertificateEvents(CertAuthOptions certAuthOptions) => _certAuthOptions = certAuthOptions;
 
+    protected virtual (bool valid, string[]? roles) ValidateCertificate(X509Certificate2 clientCert)
+    {
+        foreach (var ops in _certAuthOptions)
+        {
+            if (!string.IsNullOrWhiteSpace(ops.Thumbprint)
+                && clientCert.Thumbprint.Equals(ops.Thumbprint, StringComparison.OrdinalIgnoreCase))
+                return (true, ops.Roles);
+
+            if (!string.IsNullOrWhiteSpace(ops.CommonName))
+            {
+                if (clientCert.Subject.Equals(ops.CommonName, StringComparison.CurrentCultureIgnoreCase))
+                    return (true, ops.Roles);
+
+                var cn = clientCert.GetNameInfo(X509NameType.SimpleName, false);
+                if (cn.Equals(ops.CommonName, StringComparison.CurrentCultureIgnoreCase))
+                    return (true, ops.Roles);
+            }
+        }
+
+        return (false, null);
+    }
+
     public override async Task CertificateValidated(CertificateValidatedContext context)
     {
         var clientCert = context.ClientCertificate;
 
-        var validAuth = _certAuthOptions.FirstOrDefault(c =>
-            !string.IsNullOrEmpty(c.Thumbprint) &&
-            clientCert.Thumbprint.Equals(c.Thumbprint, StringComparison.OrdinalIgnoreCase));
+        var (valid, roles) = ValidateCertificate(clientCert);
 
-        if (validAuth != null)
+        if (valid)
         {
             await base.CertificateValidated(context).ConfigureAwait(false);
 
-            if (validAuth.Roles != null &&  context.Principal!=null)
-                context.Principal.AddIdentity(new ClaimsIdentity(validAuth.Roles.Select(r => new Claim(ClaimTypes.Role, r))));
+            if (roles != null && context.Principal != null)
+                context.Principal.AddIdentity(new ClaimsIdentity(roles.Select(r => new Claim(ClaimTypes.Role, r))));
         }
-        else context.Fail($"Certificate {context.ClientCertificate.Thumbprint} is invalid.");
+        else
+        {
+            Console.WriteLine($"Certificate {clientCert.Subject}:{clientCert.Thumbprint} is invalid.");
+            context.Fail($"Certificate {clientCert.Subject} is invalid.");
+        }
     }
 }

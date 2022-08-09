@@ -21,13 +21,11 @@ public static class AppInsightsLog
     /// Add ApplicationInsights Logs
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="instrumentationKey">If this is Null the key will be pickup from ApplicationInsights section of appsettings.json</param>
+    /// <param name="connectionString">If this is Null the key will be pickup from ApplicationInsights section of appsettings.json</param>
     /// <returns></returns>
-    public static IServiceCollection AddAppInsightsLog(this IServiceCollection services, string instrumentationKey = null)
+    public static IServiceCollection AddAppInsightsLog(this IServiceCollection services, string connectionString = null)
     {
-        if (string.IsNullOrEmpty(instrumentationKey))
-            services.AddApplicationInsightsTelemetry();
-        else services.AddApplicationInsightsTelemetry(instrumentationKey);
+        services.AddApplicationInsightsTelemetry(op=>op.ConnectionString = connectionString);
 
         services.ConfigureTelemetryModule<PerformanceCollectorModule>((module, o) =>
         {
