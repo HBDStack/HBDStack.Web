@@ -6,18 +6,19 @@ using Microsoft.AspNetCore.Server.Kestrel.Https;
 var builder = WebApplication.CreateBuilder(args);
 
 //Setup Cert Auth
-builder.Services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
+builder.Services
+    .AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
     .AddCertAuth(builder.Configuration,
     new CertAuthConfig
     {
         ClientCertificateMode = ClientCertificateMode.AllowCertificate,
         ConfigureOptions = o =>
         {
-            // o.AllowedCertificateTypes = CertificateTypes.Chained;
-            // o.RevocationFlag = X509RevocationFlag.ExcludeRoot;
-            // o.RevocationMode = X509RevocationMode.NoCheck;
-            // o.ValidateCertificateUse = false;
-            // o.ValidateValidityPeriod = false;
+            o.AllowedCertificateTypes = CertificateTypes.Chained;
+            o.RevocationFlag = X509RevocationFlag.ExcludeRoot;
+            o.RevocationMode = X509RevocationMode.NoCheck;
+            o.ValidateCertificateUse = true;
+            o.ValidateValidityPeriod = true;
         },
     });
 
@@ -39,7 +40,7 @@ app.UseCertAuth();
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 
