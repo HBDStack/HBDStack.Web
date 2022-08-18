@@ -20,6 +20,9 @@ public class ConfigurationTests
 
         config.GetConnectionString("EncryptedConn")
             .Should().Be(s);
+        
+        config.GetValue<string>("Other")
+            .Should().Be("udfclientdev");
     }
     
     [Fact]

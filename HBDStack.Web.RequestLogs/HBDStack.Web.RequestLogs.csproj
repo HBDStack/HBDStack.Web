@@ -25,7 +25,7 @@
       <PackageReference Include="HBDStack.Web.BodyPeeker" Version="6.5.2" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
       <PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
     </ItemGroup>
     
