@@ -62,4 +62,15 @@ public class ConfigurationTests
         config.GetConnectionString("EncryptedConn2")
             .Should().Be(s);
     }
+
+    [Fact]
+    public void FlatFilesTest()
+    {
+        var config = new ConfigurationBuilder()
+            .AddPlatFiles("/Users/steven/_CODE/HBDStack.Web/HBDStack.Web.Extensions.Tests/bin/Debug/net6.0/FlatConfigs")
+            .Build();
+
+        config.GetValue<string>("host")
+            .Should().Be("azure.com");
+    }
 }

@@ -48,7 +48,7 @@ public class JwtAuthSetting
 
     public virtual JwtAppAuth GetApp(string name)
     {
-        var config = Apps.FirstOrDefault(a => a.Name.EndsWith(name, System.StringComparison.CurrentCultureIgnoreCase));
+        var config = Apps.FirstOrDefault(a => a.Name.EndsWith(name, StringComparison.CurrentCultureIgnoreCase));
         if (config == null) return null;
 
         config.Authority = Authority;
