@@ -28,6 +28,7 @@ public class PlatFileConfigurationProvider:ConfigurationProvider
         {
             var ext = file.Extension;
             var nameWithoutExtension =string.IsNullOrEmpty(ext)?file.Name: file.Name.Replace(ext, string.Empty);
+            nameWithoutExtension = nameWithoutExtension.Replace("__", ":");
             var name = string.IsNullOrEmpty(_prefix) ? nameWithoutExtension : $"{_prefix}{nameWithoutExtension}";
             var value = File.ReadAllText(file.FullName);
             Data.Add(name,value);
