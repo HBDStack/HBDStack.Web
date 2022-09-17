@@ -9,6 +9,8 @@ public class MsGraphTokenValidator : ITokenValidator
     private readonly IHttpClientFactory _factory;
     private readonly ILogger<MsGraphTokenValidator> _logger;
 
+    public string? GraphResult { get; private set; }
+    
     public MsGraphTokenValidator(IHttpClientFactory factory, ILogger<MsGraphTokenValidator> logger)
     {
         _factory = factory;
@@ -24,7 +26,7 @@ public class MsGraphTokenValidator : ITokenValidator
 
         try
         {
-            var rs = await client.GetStringAsync("/v1.0/me");
+            GraphResult = await client.GetStringAsync("/v1.0/me");
             return StatusResult.Success();
         }
         catch (Exception ex)
