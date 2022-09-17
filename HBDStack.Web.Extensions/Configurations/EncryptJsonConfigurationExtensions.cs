@@ -22,12 +22,11 @@ public static class EncryptJsonConfigurationExtensions
     private static void EnsureKey(this EncryptKeyInfo info, IDictionary<string, string> data)
     {
         if (info.HasValue) return;
-        if (data.TryGetValue(info.Name, out var v))
-        {
-            info.Value = v;
-            if (!Cache.ContainsKey(info.Name))
-                Cache.Add(info.Name, info);
-        }
+        if (!data.TryGetValue(info.Name, out var v)) return;
+        
+        info.Value = v;
+        if (!Cache.ContainsKey(info.Name))
+            Cache.Add(info.Name, info);
     }
 
     internal static IDictionary<string, string> TryDecrypt(this EncryptKeyInfo info, IDictionary<string, string> data)
@@ -61,6 +60,9 @@ public static class EncryptJsonConfigurationExtensions
                     }
                 }
 
+            if (v.Any(c => c == 65533))
+                v = key.Value;
+            
             results.Add(key.Key, v);
         }
 
