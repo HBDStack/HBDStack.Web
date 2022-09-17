@@ -33,8 +33,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="HBDStack.Framework.Extensions" Version="6.5.19" />
-        <PackageReference Include="HBDStack.StatusGeneric" Version="6.5.3" />
+        <PackageReference Include="HBDStack.Framework.Extensions" Version="6.5.22" />
+        <PackageReference Include="HBDStack.StatusGeneric" Version="6.5.4" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     </ItemGroup>

@@ -10,6 +10,12 @@ public class JwtAuthConfig
     public bool ValidateIssuerSigningKey { get; set; } = true;
     public ICollection<string> Issuers { get; set; } = new List<string>();
     public Dictionary<string, string[]>? ClaimsValidations { get; set; }
+
+    public bool IsMsGraphAudience()
+    {
+        return Authority.IsAzureAdAuthority()
+               && (Audiences.Contains("00000003-0000-0000-c000-000000000000")||Audiences.Contains("https://graph.microsoft.com"));
+    }
 }
 
 public class JwtAuthOptions : Dictionary<string, JwtAuthConfig>

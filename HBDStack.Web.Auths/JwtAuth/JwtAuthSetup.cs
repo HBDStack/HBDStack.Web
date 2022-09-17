@@ -1,8 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
-using HBDStack.Web.Auths;
+using HBDStack.Web.Auths.Handlers;
 using HBDStack.Web.Auths.JwtAuth;
+using HBDStack.Web.Auths.Providers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +27,8 @@ public static class JwtAuthSetup
     /// <param name="extraConfig"></param>
     /// <typeparam name="TEvents"></typeparam>
     /// <returns></returns>
-    public static AuthenticationBuilder AddJwtAuth<TEvents>(this AuthenticationBuilder builder, JwtAuthConfig authConfig, string scheme = JwtBearerDefaults.AuthenticationScheme,Action<JwtBearerOptions>? extraConfig=null) where TEvents : DefaultJwtBearerEvents
+    public static AuthenticationBuilder AddJwtAuth<TEvents>(this AuthenticationBuilder builder, JwtAuthConfig authConfig, string scheme = JwtBearerDefaults.AuthenticationScheme, Action<JwtBearerOptions>? extraConfig = null)
+        where TEvents : DefaultJwtBearerEvents
     {
         builder.Services.TryAddScoped<TEvents>();
 
@@ -40,7 +42,7 @@ public static class JwtAuthSetup
             options.RefreshOnIssuerKeyNotFound = true;
 
             extraConfig?.Invoke(options);
-            
+
             options.EventsType = typeof(TEvents);
 
             if (!authConfig.Audiences.Any()) authConfig.Audiences.Add(authConfig.ClientId);
@@ -57,37 +59,49 @@ public static class JwtAuthSetup
                     new SymmetricSecurityKey(new HMACSHA512(Encoding.UTF8.GetBytes(authConfig.ClientSecret)).Key);
             }
 
-            if (authConfig.Authority.IsAzureAdAuthority())
+            if (authConfig.IsMsGraphAudience())
             {
+                //DONOT validate they IssuerSigningKey but calling https://graph.microsoft.com/v1.0/me to validate token via MsGraphTokenValidator
                 options.TokenValidationParameters.ValidateIssuerSigningKey = false;
                 options.TokenValidationParameters.SignatureValidator = (t, p) => new JwtSecurityToken(t);
             }
         }
 
+        if (authConfig.IsMsGraphAudience())
+        {
+            builder.Services.AddScoped<AuthorizationHttpClientHandler>();
+            builder.Services.AddHttpClient(nameof(MsGraphTokenValidator), 
+                config => config.BaseAddress = new Uri("https://graph.microsoft.com"))
+                .AddHttpMessageHandler<AuthorizationHttpClientHandler>();
+            
+            builder.Services.AddTokenValidator<MsGraphTokenValidator>();
+        }
+
         return builder.AddJwtBearer(scheme, Options);
     }
-    public static AuthenticationBuilder AddJwtAuth(this AuthenticationBuilder services, JwtAuthConfig authConfig, string scheme = JwtBearerDefaults.AuthenticationScheme,Action<JwtBearerOptions>? extraConfig=null)
-       => services.AddJwtAuth<DefaultJwtBearerEvents>(authConfig, scheme,extraConfig);
 
-    public static AuthenticationBuilder AddJwtAuths<TEvents>(this AuthenticationBuilder builder, JwtAuthOptions configuration, Action<string,JwtBearerOptions>? extraConfig = null) where TEvents : DefaultJwtBearerEvents
+    public static AuthenticationBuilder AddJwtAuth(this AuthenticationBuilder services, JwtAuthConfig authConfig, string scheme = JwtBearerDefaults.AuthenticationScheme, Action<JwtBearerOptions>? extraConfig = null)
+        => services.AddJwtAuth<DefaultJwtBearerEvents>(authConfig, scheme, extraConfig);
+
+    public static AuthenticationBuilder AddJwtAuths<TEvents>(this AuthenticationBuilder builder, JwtAuthOptions configuration, Action<string, JwtBearerOptions>? extraConfig = null) where TEvents : DefaultJwtBearerEvents
     {
         builder.Services.AddSingleton(Options.Options.Create(configuration));
-        
+
         foreach (var config in configuration)
             builder.AddJwtAuth<TEvents>(config.Value, config.Key, o => extraConfig?.Invoke(config.Key, o));
-        
+
         return builder;
     }
 
     public static AuthenticationBuilder AddJwtAuths(this AuthenticationBuilder builder, JwtAuthOptions configuration, Action<string, JwtBearerOptions>? extraConfig = null)
         => builder.AddJwtAuths<DefaultJwtBearerEvents>(configuration, extraConfig);
-    
-    public static AuthenticationBuilder AddJwtAuths<TEvents>(this AuthenticationBuilder builder, IConfiguration configuration, Action<string,JwtBearerOptions>? extraConfig = null) where TEvents : DefaultJwtBearerEvents
+
+    public static AuthenticationBuilder AddJwtAuths<TEvents>(this AuthenticationBuilder builder, IConfiguration configuration, Action<string, JwtBearerOptions>? extraConfig = null) where TEvents : DefaultJwtBearerEvents
     {
         var config = configuration.Bind<JwtAuthOptions>(JwtAuthOptions.Name);
-        return builder.AddJwtAuths<TEvents>(config,extraConfig);
+        return builder.AddJwtAuths<TEvents>(config, extraConfig);
     }
-    
-    public static AuthenticationBuilder AddJwtAuths(this AuthenticationBuilder builder, IConfiguration configuration, Action<string,JwtBearerOptions>? extraConfig = null) 
-        => builder.AddJwtAuths<DefaultJwtBearerEvents>(configuration,extraConfig);
+
+    public static AuthenticationBuilder AddJwtAuths(this AuthenticationBuilder builder, IConfiguration configuration, Action<string, JwtBearerOptions>? extraConfig = null)
+        => builder.AddJwtAuths<DefaultJwtBearerEvents>(configuration, extraConfig);
 }

@@ -5,5 +5,5 @@ namespace HBDStack.Web.Auths.Providers;
 
 public interface ITokenValidator
 {
-   ValueTask<StatusResult> ValidateAsync(string scheme,JwtAuthConfig config,  ClaimsPrincipal principal);
+    ValueTask<StatusResult> ValidateAsync(string scheme, JwtAuthConfig config, ClaimsPrincipal principal);
 }

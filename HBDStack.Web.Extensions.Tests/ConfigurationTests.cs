@@ -1,8 +1,6 @@
 using System;
 using FluentAssertions;
-using HBDStack.Framework.Extensions.Encryption;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Xunit;
 
 namespace HBDStack.Web.Extensions.Tests;

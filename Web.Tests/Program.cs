@@ -1,7 +1,3 @@
-using HBDStack.Web.Auths;
-using HBDStack.Web.Auths.CertAuth;
-using Microsoft.AspNetCore.Authentication.Certificate;
-using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.IdentityModel.Logging;
 using Web.Tests.Handlers;
 

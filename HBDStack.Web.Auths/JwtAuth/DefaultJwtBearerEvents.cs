@@ -61,7 +61,6 @@ public class DefaultJwtBearerEvents : JwtBearerEvents
         if (_claimsProviders.Any())
         {
             var results = await Task.WhenAll(_claimsProviders.Select(p => p.GetClaimsAsync(context.Scheme.Name,  context.Principal!)));
-            
             claims.AddRange(results.SelectMany(c => c));
         }
 
