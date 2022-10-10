@@ -56,7 +56,7 @@ public static class EncryptJsonConfigurationExtensions
                     }
                     catch (Exception)
                     {
-                        Console.Error.WriteLine($"Error: Not able to decrypt {key.Key}");
+                        Console.Error.WriteLine($"Warning: Not able to decrypt {key.Key}, the original value will be.");
                     }
                 }
 
