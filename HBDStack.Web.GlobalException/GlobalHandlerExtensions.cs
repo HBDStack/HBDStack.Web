@@ -8,7 +8,7 @@ namespace Microsoft.AspNetCore.Builder;
 
 public static class GlobalHandlerBuilderExtensions
 {
-    internal static IGlobalExceptionHandler? Handler { get; private set; }
+    public static IGlobalExceptionHandler? Handler { get; private set; }
 
     public static IApplicationBuilder UseGlobalExceptionHandler<THandler>(this IApplicationBuilder app) where THandler:class, IGlobalExceptionHandler
     {

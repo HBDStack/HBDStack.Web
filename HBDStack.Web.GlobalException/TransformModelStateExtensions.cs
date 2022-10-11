@@ -10,8 +10,7 @@ namespace HBDStack.Web.GlobalException;
 
 public static class TransformModelStateExtensions
 {
-    internal static IActionResult TransformModelState(ModelStateDictionary errorModelState,
-        NamingStrategy namingStrategy)
+    internal static IActionResult TransformModelState(ModelStateDictionary errorModelState, NamingStrategy namingStrategy)
     {
         var problemDetails = new ProblemDetails("One or more validation errors occurred.")
         {
