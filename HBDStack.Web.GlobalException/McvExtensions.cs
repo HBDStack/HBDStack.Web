@@ -10,7 +10,7 @@ public static class McvExtensions
     {
         builder.ConfigureApiBehaviorOptions(option 
             => option.InvalidModelStateResponseFactory = 
-                context =>new BadRequestObjectResult( GlobalHandlerBuilderExtensions.Handler.ToProblemDetails(context.ModelState)));
+                context =>new BadRequestObjectResult( GlobalHandlerBuilderExtensions.Handler!.ToProblemDetails(context.ModelState)));
 
         return builder;
     }
