@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Web.Tests.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[ApiVersion("1.0")]
+[Route("v{version:apiVersion}/[controller]")]
 public class CookieAuthController : ControllerBase
 {
     [HttpPost("/Login")]

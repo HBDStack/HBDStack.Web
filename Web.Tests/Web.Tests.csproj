@@ -7,13 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\HBDStack.Web.Auths\HBDStack.Web.Auths.csproj" />
       <ProjectReference Include="..\HBDStack.Web.GlobalException\HBDStack.Web.GlobalException.csproj" />
       <ProjectReference Include="..\HBDStack.Web.RequestLogs.Storages.Sql\HBDStack.Web.RequestLogs.Storages.Sql.csproj" />
+      <ProjectReference Include="..\HBDStack.Web.Swagger\HBDStack.Web.Swagger.csproj" />
     </ItemGroup>
 
 </Project>

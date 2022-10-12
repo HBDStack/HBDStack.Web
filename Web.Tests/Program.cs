@@ -1,3 +1,4 @@
+using HBDStack.Web.Swagger;
 using Microsoft.IdentityModel.Logging;
 using Web.Tests.Handlers;
 
@@ -7,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddApiExplorer();
+builder.Services.AddSwaggerConfig(new SwaggerInfo{Title = "Test Api"});
 
 // builder.Services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
 //     .AddCertAuth<CertAuthHandler>(builder.Configuration,
@@ -45,8 +46,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerAndUI();
     IdentityModelEventSource.ShowPII = true;
 }
 

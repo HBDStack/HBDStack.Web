@@ -6,7 +6,8 @@ namespace Web.Tests.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
+[ApiVersion("2.0")]
+[Route("v{version:apiVersion}/[controller]")]
 public class RolesController : ControllerBase
 {
     [HttpGet]

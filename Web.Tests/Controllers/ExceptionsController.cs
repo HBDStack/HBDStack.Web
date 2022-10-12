@@ -7,7 +7,8 @@ namespace Web.Tests.Controllers;
 
 [ApiController]
 [AllowAnonymous]
-[Route("[controller]")]
+[ApiVersion("1.0")]
+[Route("v{version:apiVersion}/[controller]")]
 public class ExceptionsController : ControllerBase
 {
     private readonly ILogger<ExceptionsController> _logger;

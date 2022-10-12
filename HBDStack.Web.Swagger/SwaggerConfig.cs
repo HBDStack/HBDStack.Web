@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -89,8 +91,15 @@ public static class SwaggerConfig
         if (info != null)
             services.AddSingleton(info);
 
-        services.AddSingleton<IConfigureOptions<SwaggerGenOptions>, SwaggerDefaultOptions>();
-
+        services.AddSingleton<IConfigureOptions<SwaggerGenOptions>, SwaggerDefaultOptions>()
+            .AddApiVersioning(op =>
+        {
+            op.DefaultApiVersion = new ApiVersion(1, 0);
+            op.ReportApiVersions = true;
+            op.AssumeDefaultVersionWhenUnspecified = true;
+            op.ApiVersionReader = new UrlSegmentApiVersionReader();
+        });
+        
         return services.AddVersionedApiExplorer(options =>
             {
                 options.GroupNameFormat = "'v'VVV";
@@ -112,7 +121,7 @@ public static class SwaggerConfig
 
                 c.OperationFilter<SwaggerDefaultOperationFilter>();
                 c.DocumentFilter<SwaggerAdditionalParametersDocumentFilter>();
-
+                
                 genOption?.Invoke(c);
 
                 var security = new SwaggerSecurityDefinitionHelper(c);
@@ -145,8 +154,7 @@ public static class SwaggerConfig
     /// <param name="route"></param>
     /// <param name="setupAction"></param>
     /// <returns></returns>
-    public static IApplicationBuilder UseSwaggerAndUI(this IApplicationBuilder app, string route = "docs",
-        Action<SwaggerOptions>? setupAction = null)
+    public static IApplicationBuilder UseSwaggerAndUI(this IApplicationBuilder app, string route = "docs", Action<SwaggerOptions>? setupAction = null)
     {
         var provider = app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>();
 
@@ -159,9 +167,10 @@ public static class SwaggerConfig
             });
         };
 
-        return app.UseSwagger(setupAction)
-            .UseSwaggerAuthorized()
-            .UseSwaggerUI(c =>
+         app.UseSwagger(setupAction)
+            .UseSwaggerAuthorized();
+         //TODO: Disable Swagger UI when running in PRD
+         app.UseSwaggerUI(c =>
             {
                 c.RoutePrefix = route;
 
@@ -170,6 +179,8 @@ public static class SwaggerConfig
                     c.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
                         description.GroupName.ToUpperInvariant());
             });
+
+        return app;
     }
 
     private static IApplicationBuilder UseSwaggerAuthorized(this IApplicationBuilder builder)
